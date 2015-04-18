@@ -1,4 +1,6 @@
 import pymarc
-reader = pymarc.MARCReader(hello_marc.dat. force_utf8=True)
-record = reader.next() # returns a record object
-print (record.title())
+
+marc_file = open('hello_marc.dat', 'rb')  # make sure open as binary
+reader = pymarc.MARCReader(marc_file, force_utf8=True)
+print(next(reader))  # use next function
+
