@@ -9,24 +9,25 @@ import argparse
 import sys
 
 
-def main(args):
-    csv_writer = make_csv_writer(args.output, args.fields)
+def main(arguments):
+    csv_writer = make_csv_writer(arguments.output, arguments.fields)
     csv_writer.writeheader()
-    for marc_file in args.marc_files:
+    for marc_file in arguments.marc_files:
         marc_reader = pymarc.MARCReader(marc_file)
         for record in marc_reader:
             row = {}  # create a dictionary row
-            for fieldnames in make_fieldnames(args.fields, csv=False):
+            for fieldnames in make_fieldnames(arguments.fields,
+                                              needcsv=False):
                 fields = record.get_fields(*fieldnames)
                 data = []
                 for field in fields:
                     data.append(field.format_field())
                 row["+".join(fieldnames)] = " | ".join(data)
             csv_writer.writerow(row)
-    args.output.close()
+    arguments.output.close()
 
 
-def make_fieldnames(fields, csv=True):
+def make_fieldnames(fields, needcsv=True):
     """Return fieldnames from the args, Some encapsulation here"""
     fieldnames = []
     for field_name in fields.split(','):
@@ -35,7 +36,7 @@ def make_fieldnames(fields, csv=True):
         for element in field_name.strip().split('+'):
             elements.append(element.strip())
         fieldnames.append(elements)
-    if csv:
+    if needcsv:
         return ["+".join(field_name) for field_name in fieldnames]
     else:
         return fieldnames
@@ -66,6 +67,3 @@ def parse_arguments():
 if __name__ == '__main__':
     args = parse_arguments()
     main(args)
-
-
-
