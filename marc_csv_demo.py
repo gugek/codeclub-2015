@@ -23,12 +23,6 @@ def main(arguments):
                 for field in fields:
                     data.append(field.format_field())
                 row["+".join(fieldnames)] = " | ".join(data)
-            for (key, value) in row.items():
-                try:
-                    row[key] = value.encode('utf8')  # put unicode into str
-                except:
-                    print("ERROR")
-                    pass
             csv_writer.writerow(row)
     arguments.output.close()
 
