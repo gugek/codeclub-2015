@@ -55,7 +55,7 @@ def parse_arguments():
     parser.add_argument("marc_files", help="MARC file(s) to open", nargs="+",
                         type=argparse.FileType('rb'))
     parser.add_argument("-o", "--output", default=sys.stdout,
-                        type=argparse.FileType('wb'),
+                        type=argparse.FileType('w'),
                         help="output file: default stdout")
     parser.add_argument("-f", "--fields",
                         help="fields to extract: comma and plus separated " +
