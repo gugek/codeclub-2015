@@ -23,6 +23,12 @@ def main(arguments):
                 for field in fields:
                     data.append(field.format_field())
                 row["+".join(fieldnames)] = " | ".join(data)
+            for (key, value) in row.items():
+                try:
+                    row[key] = value.encode('utf8')  # put unicode into str
+                except:
+                    print("ERROR")
+                    pass
             csv_writer.writerow(row)
     arguments.output.close()
 
@@ -55,7 +61,7 @@ def parse_arguments():
     parser.add_argument("marc_files", help="MARC file(s) to open", nargs="+",
                         type=argparse.FileType('rb'))
     parser.add_argument("-o", "--output", default=sys.stdout,
-                        type=argparse.FileType('w'),
+                        type=argparse.FileType('wb'),
                         help="output file: default stdout")
     parser.add_argument("-f", "--fields",
                         help="fields to extract: comma and plus separated " +
