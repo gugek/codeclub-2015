@@ -6,16 +6,18 @@ Opens a MARC file using pymarc and read in a single record
 """
 import pymarc
 import argparse
+import pprint
 
 
-def main(arguments):
-    marc_file = open(arguments.filename, 'rb')
+def main():
+    marc_file = open('hello_marc.dat', 'rb')
     reader = pymarc.MARCReader(marc_file, force_utf8=True)
-    record = next(reader)  # returns a record object
-    print("Hello World!")
-    print(record)  # print the MARC-text representation of the record
-    return record
-
+    # record = next(reader)  # returns a record object
+    for record in reader:
+        print(type(record))
+        print(type(record.fields))
+        print(record.leader)
+        # print(record)
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
@@ -26,5 +28,4 @@ def parse_arguments():
 
 
 if __name__ == '__main__':
-    args = parse_arguments()
-    main(args)
+    main()
